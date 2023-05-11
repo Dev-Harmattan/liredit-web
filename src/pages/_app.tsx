@@ -3,7 +3,7 @@ import { Provider, Client, fetchExchange } from 'urql';
 import { cacheExchange, Cache, QueryInput } from '@urql/exchange-graphcache';
 import theme from '../theme';
 import { AppProps } from 'next/app';
-import { MeDocument } from '../generated/graphql';
+import { LogoutMutation, MeDocument } from '../generated/graphql';
 import { MeQuery } from '../generated/graphql';
 import { LoginMutation } from '../generated/graphql';
 import { RegisterMutation } from '../generated/graphql';
@@ -23,6 +23,18 @@ const client = new Client({
     cacheExchange({
       updates: {
         Mutation: {
+          logout: (_result: LogoutMutation, args, cache, info) => {
+            betterUpdateQuery<LogoutMutation, MeQuery>(
+              cache,
+              { query: MeDocument },
+              _result,
+              () => {
+                return {
+                  me: null,
+                };
+              }
+            );
+          },
           login: (_result: LoginMutation, args, cache, info) => {
             betterUpdateQuery<LoginMutation, MeQuery>(
               cache,
@@ -39,7 +51,7 @@ const client = new Client({
               }
             );
           },
-          register : (_result: RegisterMutation, args, cache, info) => {
+          register: (_result: RegisterMutation, args, cache, info) => {
             betterUpdateQuery<RegisterMutation, MeQuery>(
               cache,
               { query: MeDocument },
