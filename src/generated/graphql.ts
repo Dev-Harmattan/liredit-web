@@ -98,6 +98,12 @@ export type UsernamePasswordOption = {
   username: Scalars['String'];
 };
 
+export type RegularUserFragment = {
+  __typename?: 'User';
+  id: number;
+  username: string;
+} & { ' $fragmentName'?: 'RegularUserFragment' };
+
 export type LoginMutationVariables = Exact<{
   options: UsernamePasswordOption;
 }>;
@@ -111,7 +117,11 @@ export type LoginMutation = {
       field: string;
       message: string;
     }> | null;
-    user?: { __typename?: 'User'; id: number; username: string } | null;
+    user?:
+      | ({ __typename?: 'User' } & {
+          ' $fragmentRefs'?: { RegularUserFragment: RegularUserFragment };
+        })
+      | null;
   };
 };
 
@@ -129,7 +139,11 @@ export type RegisterMutation = {
       field: string;
       message: string;
     }> | null;
-    user?: { __typename?: 'User'; id: number; username: string } | null;
+    user?:
+      | ({ __typename?: 'User' } & {
+          ' $fragmentRefs'?: { RegularUserFragment: RegularUserFragment };
+        })
+      | null;
   };
 };
 
@@ -137,12 +151,13 @@ export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MeQuery = {
   __typename?: 'Query';
-  me?: { __typename?: 'User'; id: number; username: string } | null;
+  me?:
+    | ({ __typename?: 'User' } & {
+        ' $fragmentRefs'?: { RegularUserFragment: RegularUserFragment };
+      })
+    | null;
 };
 
-// export const LoginDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Login"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"options"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UsernamePasswordOption"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"login"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"options"},"value":{"kind":"Variable","name":{"kind":"Name","value":"options"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}}]}}]}}]}}]} as unknown as DocumentNode<LoginMutation, LoginMutationVariables>;
-// export const RegisterDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Register"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"password"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"register"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"options"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"password"},"value":{"kind":"Variable","name":{"kind":"Name","value":"password"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}}]}}]}}]}}]} as unknown as DocumentNode<RegisterMutation, RegisterMutationVariables>;
-// export const MeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"me"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}}]}}]}}]} as unknown as DocumentNode<MeQuery, MeQueryVariables>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -227,6 +242,12 @@ export type UsernamePasswordOption = {
   username: Scalars['String'];
 };
 
+export type RegularUserFragment = {
+  __typename?: 'User';
+  id: number;
+  username: string;
+} & { ' $fragmentName'?: 'RegularUserFragment' };
+
 export type LoginMutationVariables = Exact<{
   options: UsernamePasswordOption;
 }>;
@@ -240,7 +261,11 @@ export type LoginMutation = {
       field: string;
       message: string;
     }> | null;
-    user?: { __typename?: 'User'; id: number; username: string } | null;
+    user?:
+      | ({ __typename?: 'User' } & {
+          ' $fragmentRefs'?: { RegularUserFragment: RegularUserFragment };
+        })
+      | null;
   };
 };
 
@@ -258,7 +283,11 @@ export type RegisterMutation = {
       field: string;
       message: string;
     }> | null;
-    user?: { __typename?: 'User'; id: number; username: string } | null;
+    user?:
+      | ({ __typename?: 'User' } & {
+          ' $fragmentRefs'?: { RegularUserFragment: RegularUserFragment };
+        })
+      | null;
   };
 };
 
@@ -266,9 +295,19 @@ export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MeQuery = {
   __typename?: 'Query';
-  me?: { __typename?: 'User'; id: number; username: string } | null;
+  me?:
+    | ({ __typename?: 'User' } & {
+        ' $fragmentRefs'?: { RegularUserFragment: RegularUserFragment };
+      })
+    | null;
 };
 
+export const RegularUserFragmentDoc = gql`
+  fragment RegularUser on User {
+    id
+    username
+  }
+`;
 export const LoginDocument = gql`
   mutation Login($options: UsernamePasswordOption!) {
     login(options: $options) {
@@ -277,11 +316,11 @@ export const LoginDocument = gql`
         message
       }
       user {
-        id
-        username
+        ...RegularUser
       }
     }
   }
+  ${RegularUserFragmentDoc}
 `;
 
 export function useLoginMutation() {
@@ -295,11 +334,11 @@ export const RegisterDocument = gql`
         message
       }
       user {
-        id
-        username
+        ...RegularUser
       }
     }
   }
+  ${RegularUserFragmentDoc}
 `;
 
 export function useRegisterMutation() {
@@ -310,10 +349,10 @@ export function useRegisterMutation() {
 export const MeDocument = gql`
   query Me {
     me {
-      id
-      username
+      ...RegularUser
     }
   }
+  ${RegularUserFragmentDoc}
 `;
 
 export function useMeQuery(
