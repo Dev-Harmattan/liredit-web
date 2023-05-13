@@ -6,6 +6,8 @@ import InputField from '../components/InputField';
 import { useLoginMutation } from '../generated/graphql';
 import { toErrorMap } from '../utils/toErrorMap';
 import { useRouter } from 'next/router';
+import { withUrqlClient } from 'next-urql';
+import { createClientExchange } from '../utils/createClientExchange';
 
 interface loginProps {}
 
@@ -15,9 +17,9 @@ export const Login: React.FC<loginProps> = () => {
   return (
     <Wrapper variant="small">
       <Formik
-        initialValues={{ username: '', password: '' }}
+        initialValues={{ usernameOrEmail: '', password: '' }}
         onSubmit={async (values, { setErrors }) => {
-          const response = await loginUser({ options: values });
+          const response = await loginUser(values);
           if (response.data?.login.errors) {
             setErrors(toErrorMap(response.data.login.errors));
           } else if (response.data?.login.user) {
@@ -28,10 +30,10 @@ export const Login: React.FC<loginProps> = () => {
         {({ isSubmitting }) => (
           <Form>
             <InputField
-              name="username"
+              name="usernameOrEmail"
               type="text"
-              placeholder="username"
-              label="Username"
+              placeholder="username or email"
+              label="Username or Email"
             />
             <Box mt={4}>
               <InputField
@@ -56,4 +58,4 @@ export const Login: React.FC<loginProps> = () => {
   );
 };
 
-export default Login;
+export default withUrqlClient(createClientExchange)(Login);
