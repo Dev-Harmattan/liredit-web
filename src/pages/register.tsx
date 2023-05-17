@@ -66,4 +66,4 @@ export const register: React.FC<registerProps> = () => {
   );
 };
 
-export default withUrqlClient(createClientExchange)(register);
+export default withUrqlClient(createClientExchange, { ssr: false })(register);
