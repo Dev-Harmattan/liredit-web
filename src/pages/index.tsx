@@ -1,21 +1,21 @@
-import { NavBar } from '../components/NavBar';
 import { withUrqlClient } from 'next-urql';
 import { createClientExchange } from '../utils/createClientExchange';
 import { usePostsQuery } from '../generated/graphql';
+import Layout from '../components/Layout';
+import Link from 'next/link';
 
 const Index = () => {
-  const [{ data, fetching }] = usePostsQuery();
+  const [{ data }] = usePostsQuery();
   return (
-    <>
-      <NavBar />
-      <div>Home page</div>
+    <Layout variant="small">
+      <Link href="/create-post">Create Post</Link>
       <br />
       {!data ? (
         <div>Loading...</div>
       ) : (
         data.posts.map((post) => <div key={post.id}>{post.title}</div>)
       )}
-    </>
+    </Layout>
   );
 };
 

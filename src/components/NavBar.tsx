@@ -1,18 +1,30 @@
-import { Flex, Box, Link, Button } from '@chakra-ui/react';
+import { Flex, Box, Button } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLogoutMutation, useMeQuery } from '../generated/graphql';
 import { isServer } from '../utils/isServer';
 
 interface NavBarProps {}
 
 export const NavBar: React.FC<NavBarProps> = () => {
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsSticky(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   const [{ data }] = useMeQuery({
     pause: isServer(),
   });
   const [{ fetching: logoutFetching }, logout] = useLogoutMutation();
   let body = null;
-
+  // @ts-ignore
   if (!data?.me?.username) {
     body = (
       <>
@@ -26,12 +38,15 @@ export const NavBar: React.FC<NavBarProps> = () => {
     );
   }
 
+  // @ts-ignore
   if (data?.me?.username) {
     body = (
       <Flex>
+        {/* @ts-ignore */}
         <Box mr={2}>{data.me.username}</Box>
         <Button
           isLoading={logoutFetching}
+          // @ts-ignore
           onClick={() => logout()}
           variant="link"
         >
@@ -42,7 +57,16 @@ export const NavBar: React.FC<NavBarProps> = () => {
   }
 
   return (
-    <Flex bg="tomato" p={4}>
+    <Flex
+      position={isSticky ? 'fixed' : 'static'}
+      top={0}
+      left={0}
+      right={0}
+      bg="tomato"
+      p={4}
+      zIndex={1}
+      boxShadow={isSticky ? 'md' : 'none'}
+    >
       <Box ml="auto">{body}</Box>
     </Flex>
   );
