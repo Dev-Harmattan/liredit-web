@@ -16,7 +16,6 @@ export const Login: React.FC<loginProps> = () => {
   const [{}, loginUser] = useLoginMutation();
   const router = useRouter();
 
-  console.log(router);
   return (
     <Wrapper variant="small">
       <Formik
